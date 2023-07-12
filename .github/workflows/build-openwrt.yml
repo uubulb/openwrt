@@ -49,9 +49,6 @@ jobs:
     if: github.event.repository.owner.id == github.event.sender.id
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-      
     - name: Maximize build space
       uses: easimon/maximize-build-space@master
       with:
@@ -62,6 +59,9 @@ jobs:
           remove-codeql: 'true'
           remove-docker-images: 'true'
           remove-haskell: 'true'
+      
+    - name: Checkout
+      uses: actions/checkout@master
       
     - name: Check Server Performance
       run: |
@@ -87,6 +87,7 @@ jobs:
         sudo -E apt-get -qq autoremove --purge
         sudo -E apt-get -qq clean
         sudo timedatectl set-timezone "$TZ"
+        sudo df -ha
 
     - name: Clone source code
       run: git clone --depth 1 $REPO_URL -b $REPO_BRANCH openwrt
